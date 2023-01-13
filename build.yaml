@@ -1,16 +1,15 @@
 ---
-name: "Template"
-guid: "eb5d7894-8eef-4b36-aa6f-5d124e828ce1"
+name: "Avlist"
+guid: "6730eca4-1058-4f28-aace-cb60965ad500"
 version: "1.0.0.0"
 targetAbi: "10.8.0.0"
 framework: "net6.0"
-overview: "Short description about your plugin"
+overview: "AvList metadata provider"
 description: >
-  This is a longer description that can span more than one
-  line and include details about your plugin.
-category: "General"
+  AvList metadata provider
+category: "Metadata"
 owner: "jellyfin"
 artifacts:
-- "Jellyfin.Plugin.Template.dll"
+  - "Jellyfin.Plugin.AvList.dll"
 changelog: >
   changelog
