@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using Jellyfin.Plugin.AvList.Configuration;
 using MediaBrowser.Common.Configuration;
+using MediaBrowser.Common.Net;
 using MediaBrowser.Common.Plugins;
 using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Serialization;
+using Pukenicorn.Sukebei.JavList.Client.Api;
 
 namespace Jellyfin.Plugin.AvList;
 
@@ -14,15 +18,16 @@ namespace Jellyfin.Plugin.AvList;
 /// </summary>
 public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Plugin"/> class.
-    /// </summary>
-    /// <param name="applicationPaths">Instance of the <see cref="IApplicationPaths"/> interface.</param>
-    /// <param name="xmlSerializer">Instance of the <see cref="IXmlSerializer"/> interface.</param>
-    public Plugin(IApplicationPaths applicationPaths, IXmlSerializer xmlSerializer)
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    public Plugin(
+        IApplicationPaths applicationPaths,
+        IXmlSerializer xmlSerializer,
+        IHttpClientFactory httpClientFactory)
         : base(applicationPaths, xmlSerializer)
     {
         Instance = this;
+        _httpClientFactory = httpClientFactory;
     }
 
     /// <inheritdoc />
@@ -36,16 +41,19 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     /// </summary>
     public static Plugin? Instance { get; private set; }
 
+    public HttpClient GetHttpClient()
+    {
+        var httpClient = _httpClientFactory.CreateClient(NamedClient.Default);
+        httpClient.BaseAddress = new Uri(Configuration.JavListPath);
+        httpClient.DefaultRequestHeaders.UserAgent.Add(
+            new ProductInfoHeaderValue(Name, Version.ToString()));
+
+        return httpClient;
+    }
+
     /// <inheritdoc />
     public IEnumerable<PluginPageInfo> GetPages()
     {
-        return new[]
-        {
-            new PluginPageInfo
-            {
-                Name = this.Name,
-                EmbeddedResourcePath = string.Format(CultureInfo.InvariantCulture, "{0}.Configuration.configPage.html", GetType().Namespace)
-            }
-        };
+        return new[] { new PluginPageInfo { Name = this.Name, EmbeddedResourcePath = string.Format(CultureInfo.InvariantCulture, "{0}.Configuration.configPage.html", GetType().Namespace) } };
     }
 }
