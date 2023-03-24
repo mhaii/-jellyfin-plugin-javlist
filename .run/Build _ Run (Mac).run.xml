@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Build / Run (Mac)" type="RunExe" factoryName=".NET Executable">
+    <option name="EXE_PATH" value="$PROJECT_DIR$/../jellyfin/Jellyfin.Server/bin/Debug/net7.0/jellyfin.dll" />
+    <option name="PROGRAM_PARAMETERS" value="--webdir $USER_HOME$/WebstormProjects/jellyfin-web/dist/" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../jellyfin/Jellyfin.Server/bin/Debug/net7.0" />
+    <option name="PASS_PARENT_ENVS" value="1" />
+    <option name="USE_EXTERNAL_CONSOLE" value="0" />
+    <option name="USE_MONO" value="0" />
+    <option name="RUNTIME_ARGUMENTS" value="" />
+    <method v="2">
+      <option name="Build Solution" enabled="true" />
+      <option name="RunConfigurationTask" enabled="false" run_configuration_name="Copy DLL (Mac)" run_configuration_type="ShConfigurationType" />
+    </method>
+  </configuration>
+</component>
